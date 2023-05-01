@@ -1,0 +1,1 @@
+# Symfony project in docker container
