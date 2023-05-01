@@ -7,9 +7,11 @@ services:
             dockerfile: Dockerfile
             args:
                 PHP_VERSION: ${PHP_VERSION}
+                GIT_NAME: ${GIT_NAME}
+                GIT_EMAIL: ${GIT_EMAIL}
                 
         ports:
-            - ${PORT_HOST}:${PORT_CONTAINER}
+            - ${PORT_HOST}:8000
 
         volumes:
             - ../:/var/www/html

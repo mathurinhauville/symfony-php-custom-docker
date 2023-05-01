@@ -2,6 +2,9 @@ ARG PHP_VERSION
 
 FROM php:${PHP_VERSION}-cli
 
+ARG GIT_NAME
+ARG GIT_EMAIL
+
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
         locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \
@@ -26,8 +29,8 @@ RUN pecl install apcu && docker-php-ext-enable apcu
 
 RUN npm install --global yarn
 
-RUN git config --global user.email "mathurinhauville@gmail.com" \
-    &&  git config --global user.name "Mathurin"
+RUN git config --global user.email "${GIT_EMAIL}" \
+    &&  git config --global user.name "${GIT_NAME}"
 
 CMD tail -f /dev/null
 
