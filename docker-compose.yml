@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+    php8-sf6:
+        container_name: ${CONTAINER_NAME}
+        build: 
+            context: ./php-symfony
+            dockerfile: Dockerfile
+            args:
+                PHP_VERSION: ${PHP_VERSION}
+                
+        ports:
+            - ${PORT_HOST}:${PORT_CONTAINER}
+
+        volumes:
+            - ${PATH_PROJECT}:/var/www/html
