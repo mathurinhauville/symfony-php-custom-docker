@@ -18,7 +18,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    &&  mv /root/.symfony5/bin/symfony /usr/local/bin
+    && find /root/ -type d -name ".symfony*" > .tmp \
+    && path=$(head -n 1 .tmp) \
+    && folder="$(basename "$path")" \
+    && mv /root/$folder/bin/symfony /usr/local/bin \
+    && rm -rf .tmp
 
 RUN docker-php-ext-configure \
             intl \

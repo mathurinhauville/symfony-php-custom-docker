@@ -9,7 +9,8 @@ services:
                 PHP_VERSION: ${PHP_VERSION}
                 GIT_NAME: ${GIT_NAME}
                 GIT_EMAIL: ${GIT_EMAIL}
-                
+        image: php${PHP_VERSION}-symfony${SYMFONY_VERSION}
+           
         ports:
             - ${PORT_HOST}:8000
 

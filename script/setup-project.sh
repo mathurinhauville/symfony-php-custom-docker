@@ -1,8 +1,10 @@
 #!/bin/bash
 source .env 
 
+#set the environment variables for the project
 while true 
     do
+    #set the path
     while true;
         do
         read -p "Path for the new project : " path_project
@@ -14,6 +16,7 @@ while true
         break
     done
 
+    #set the project name
     while true;
         do
         read -p "Project name : " project_name
@@ -35,6 +38,7 @@ while true
         break
     done
 
+    #set the symfony version
     while true;
         do
         read -p "Symfony version : " symfony_version
@@ -46,6 +50,7 @@ while true
         break
     done
 
+    #set the php version
     while true;
         do
         read -p "PHP version : " php_version
@@ -57,6 +62,7 @@ while true
         break
     done
 
+    #set the server port
     while true;
         do
         read -p "Symfony server port : " port_host
@@ -70,6 +76,8 @@ while true
 
     git_name="Your name"
     git_email="mail@exemple.com"
+
+    #set git
     read -p "Do you want to use git ? [y/n] " replyGit
     if [ "$replyGit" = "y" ] || [ "$replyGit" = "Y" ]; then
         read -p "Enter your git name : " git_name
@@ -78,7 +86,8 @@ while true
 
     echo -e "\033[32mYour symfony project will be created in \033[4m$path_project/$project_name\033[0m \033[32mwith PHP $php_version and Symfony $symfony_version on port $port_host \033[0m"
 
-    read -p "Do you want to continue ? [y/n] " reply
+    #validate the configuration
+    read -p "Do you want to validate ? [y/n] " reply
     if [ "$reply" = "y" ] || [ "$reply" = "Y" ]; then
         if grep -q "^PATH_PROJECT=" .env; then
             sed -i~ '/^PATH_PROJECT/d' .env
@@ -111,9 +120,10 @@ while true
             sed -i~ '/^GIT_EMAIL/d' .env
         fi
 
-        echo -e "PATH_PROJECT=$path_project" >> .env
-        echo -e "PROJECT_NAME=$project_name" >> .env
-        echo -e "CONTAINER_NAME=project-$project_name-symfony$symfony_version-PHP$php_version" >> .env
+        #set the environment variables
+        echo -e "PATH_PROJECT=\"$path_project\"" >> .env
+        echo -e "PROJECT_NAME=\"$project_name\"" >> .env
+        echo -e "CONTAINER_NAME=\"project-$project_name-symfony$symfony_version-PHP$php_version\"" >> .env
         echo -e "SYMFONY_VERSION=$symfony_version" >> .env
         echo -e "PHP_VERSION=$php_version" >> .env
         echo -e "PORT_HOST=$port_host" >> .env
@@ -121,7 +131,9 @@ while true
         echo "GIT_EMAIL=\"$git_email\"" >> .env
 
         rm -f .env~
-        make call-by-script
+
+        #create the container and the symfony project
+        make new-skip
         exit 0
     else
         exit 1
