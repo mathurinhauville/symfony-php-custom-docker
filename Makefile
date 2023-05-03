@@ -13,10 +13,20 @@ new-skip :
 	docker-compose -f ./docker-compose.yml up -d --remove-orphans
 	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*"
 	@mkdir $(PATH_PROJECT)/$(PROJECT_NAME)/docker
-	@cp copy/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker/docker-compose.yml
+	@cp .copy/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker/docker-compose.yml
 	@cp .env $(PATH_PROJECT)/$(PROJECT_NAME)/docker/.env
 	@cp -R php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)/docker/php-symfony
-	@cp copy/Makefile $(PATH_PROJECT)/$(PROJECT_NAME)/Makefile
+	@cp .copy/Makefile $(PATH_PROJECT)/$(PROJECT_NAME)/Makefile
+	@docker-compose -f ./docker-compose.yml down --remove-orphans
+
+new-from-existing : 
+	docker-compose -f ./docker-compose-update.yml up -d --remove-orphans
+	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*"
+	@mkdir $(PATH_PROJECT)/$(PROJECT_NAME)/docker
+	@cp .copy/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker/docker-compose.yml
+	@cp .env $(PATH_PROJECT)/$(PROJECT_NAME)/docker/.env
+	@cp -R php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)/docker/php-symfony
+	@cp .copy/Makefile $(PATH_PROJECT)/$(PROJECT_NAME)/Makefile
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
 
 reset :
@@ -28,3 +38,4 @@ reset :
 	@echo PORT_HOST=9000 >> .env
 	@echo GIT_NAME=\"Your Name\" >> .env
 	@echo GIT_EMAIL=\"you@exemple.com\" >> .env
+	@echo IMAGE_NAME=php-${PHP_VERSION}-symfony-${SYMFONY_VERSION} >> .env

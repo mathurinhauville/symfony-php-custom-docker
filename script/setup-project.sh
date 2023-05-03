@@ -75,7 +75,7 @@ while true
     done
 
     git_name="Your name"
-    git_email="mail@exemple.com"
+    git_email="you@exemple.com"
 
     #set git
     read -p "Do you want to use git ? [y/n] " replyGit
@@ -134,9 +134,9 @@ while true
 
         #create the container and the symfony project
         make new-skip
-        exit 0
+        break
     else
-        exit 1
+        break
     fi
     continue
 done
