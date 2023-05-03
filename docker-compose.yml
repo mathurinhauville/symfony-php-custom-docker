@@ -10,9 +10,13 @@ services:
                 GIT_NAME: ${GIT_NAME}
                 GIT_EMAIL: ${GIT_EMAIL}
         image: ${IMAGE_NAME}
-
         ports:
             - ${PORT_HOST}:8000
-
         volumes:
             - ${PATH_PROJECT}:/var/www/html
+        networks:
+            - php-symfony-networks
+
+networks:
+    php-symfony-networks:
+        name: networks-${CONTAINER_NAME}

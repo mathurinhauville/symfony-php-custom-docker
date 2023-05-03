@@ -62,6 +62,9 @@ while true
         break
     done
 
+    #set the image name
+    image_name="php$php_version-symfony$symfony_version"
+
     #set the server port
     while true;
         do
@@ -109,6 +112,10 @@ while true
             sed -i~ '/^PHP_VERSION/d' .env
         fi
 
+        if grep -q "^IMAGE_NAME=" .env; then
+            sed -i~ '/^IMAGE_NAME/d' .env
+        fi
+
         if grep -q "^PORT_HOST=" .env; then
             sed -i~ '/^PORT_HOST/d' .env
         fi
@@ -121,19 +128,31 @@ while true
         fi
 
         #set the environment variables
-        echo -e "PATH_PROJECT=\"$path_project\"" >> .env
-        echo -e "PROJECT_NAME=\"$project_name\"" >> .env
-        echo -e "CONTAINER_NAME=\"project-$project_name-symfony$symfony_version-PHP$php_version\"" >> .env
-        echo -e "SYMFONY_VERSION=$symfony_version" >> .env
-        echo -e "PHP_VERSION=$php_version" >> .env
-        echo -e "PORT_HOST=$port_host" >> .env
+        echo "PATH_PROJECT=\"$path_project\"" >> .env
+        echo "PROJECT_NAME=\"$project_name\"" >> .env
+        echo "CONTAINER_NAME=\"project-$project_name-symfony$symfony_version-PHP$php_version\"" >> .env
+        echo "SYMFONY_VERSION=$symfony_version" >> .env
+        echo "PHP_VERSION=$php_version" >> .env
+        echo "PORT_HOST=$port_host" >> .env
         echo "GIT_NAME=\"$git_name\"" >> .env
         echo "GIT_EMAIL=\"$git_email\"" >> .env
+        echo "IMAGE_NAME=$image_name" >> .env
 
         rm -f .env~
 
-        #create the container and the symfony project
-        make new-skip
+        #build from the image if she exist
+        docker images --quiet $image_name > .tmp
+
+        if [ -s .tmp ]; then
+            echo -e "\033[32mCreate the container and the project from an existing image\033[0m"
+            make create-from-existing-image
+        else
+            echo -e "\033[32mCreate the container and the project from a new image\033[0m"
+            make create
+        fi
+
+        rm -f .tmp
+
         break
     else
         break

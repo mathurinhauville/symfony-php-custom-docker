@@ -1,14 +1,16 @@
 include .env
 
 help :
+	@echo "Command list :"
 	@echo "new : Set the environment variables and create a new project"
-	@echo "new-skip : Create a new project without asking questions if the environment variables are set"
 	@echo "reset : Reset the environment variables to the default values"
+	@echo "create : (USE BY SCRIPT) Create a new container and project"
+	@echo "create-from-existing-image : (USE BY SCRIPT) Create a new project from an existing image"
 
 new :
 	@./script/setup-project.sh
 
-new-skip :
+create :
 	docker-compose -f ./docker-compose.yml build --build-arg PHP_VERSION=$(PHP_VERSION) --build-arg GIT_NAME=$(GIT_NAME) --build-arg GIT_EMAIL=$(GIT_EMAIL)
 	docker-compose -f ./docker-compose.yml up -d --remove-orphans
 	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*"
@@ -19,7 +21,7 @@ new-skip :
 	@cp .copy/Makefile $(PATH_PROJECT)/$(PROJECT_NAME)/Makefile
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
 
-new-from-existing : 
+create-from-existing-image : 
 	docker-compose -f ./docker-compose-update.yml up -d --remove-orphans
 	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*"
 	@mkdir $(PATH_PROJECT)/$(PROJECT_NAME)/docker
