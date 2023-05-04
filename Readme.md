@@ -1,4 +1,4 @@
-# Symfony and PHP in docker with custom version (no DB)
+# Symfony and PHP in docker with custom version and Makefile (no DB)
 
 **This project is inspired by [@yoanbernabeu](https://github.com/yoanbernabeu) with [this project](https://github.com/yoanbernabeu/symfony6-php8-in-docker-compose)**
 
@@ -70,7 +70,7 @@ Erases the container
 ```bash
 make stop
 ```
-Restart the container
+Restart the container (delete and recreate)
 ```bash
 make restart
 ```
