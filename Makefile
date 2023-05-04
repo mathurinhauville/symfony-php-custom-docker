@@ -4,14 +4,14 @@ help :
 	@echo "Command list :"
 	@echo "new : Set the environment variables and create a new project"
 	@echo "reset : Reset the environment variables to the default values"
-	@echo "create : (USE BY SCRIPT) Create a new container and project"
-	@echo "create-from-existing-image : (USE BY SCRIPT) Create a new project from an existing image"
+	@echo "create : Create a new container and project from .env file (use by script)"
+	@echo "create-from-existing-image : Create a new project from an existing image and .env file (use by script)"
 
 new :
-	@./script/setup-project.sh
+	@./scripts/setup-project.sh
 
 create :
-	docker-compose -f ./docker-compose.yml build --build-arg PHP_VERSION=$(PHP_VERSION) --build-arg GIT_NAME=$(GIT_NAME) --build-arg GIT_EMAIL=$(GIT_EMAIL)
+	docker-compose -f ./docker-compose.yml build --build-arg PHP_VERSION=$(PHP_VERSION)
 	docker-compose -f ./docker-compose.yml up -d --remove-orphans
 	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*"
 	@mkdir $(PATH_PROJECT)/$(PROJECT_NAME)/docker

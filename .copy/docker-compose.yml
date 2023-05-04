@@ -7,8 +7,6 @@ services:
             dockerfile: Dockerfile
             args:
                 PHP_VERSION: ${PHP_VERSION}
-                GIT_NAME: ${GIT_NAME}
-                GIT_EMAIL: ${GIT_EMAIL}
         image: ${IMAGE_NAME}
         networks:
             - php-symfony-networks
