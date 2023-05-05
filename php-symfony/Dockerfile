@@ -1,3 +1,10 @@
+# Path: php-symfony/Dockerfile
+#
+# Dockerfile for install Symfony with PHP
+#
+# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
+# @Author : https://github.com/mathurinhauville
+
 ARG PHP_VERSION
 
 FROM php:${PHP_VERSION}-cli

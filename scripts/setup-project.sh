@@ -1,12 +1,19 @@
 #!/bin/bash
-source .env 
 
-#----------set the environment variables for the project----------#
+# Path: scripts/setup-project.sh
+#
+# Script to read the environment variables and set them with the script setup-env.sh
+# It's called by the Makefile on the command "make new"
+#
+# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
+# @Author : https://github.com/mathurinhauville
+
+source .env 
 
 while true 
     do
 
-    #set the path
+    #set the path for the new project
     while true;
         do
         read -p "Path for the new project : " path_project
@@ -21,7 +28,7 @@ while true
     #set the project name
     while true;
         do
-        read -p "Project name : " project_name
+        read -p "[1/5] Project name : " project_name
 
         if [ -z "$project_name" ]; then
             echo -e "\033[31mPlease enter a project name\033[0m"
@@ -43,7 +50,7 @@ while true
     #set the symfony version
     while true;
         do
-        read -p "Symfony version : " symfony_version
+        read -p "[2/5] Symfony version : " symfony_version
 
         if [ -z "$symfony_version" ]; then
             echo -e "\033[31mPlease enter a symfony version\033[0m"
@@ -55,7 +62,7 @@ while true
     #set the php version
     while true;
         do
-        read -p "PHP version : " php_version
+        read -p "[3/5] PHP version : " php_version
 
         if [ -z "$php_version" ]; then
             echo -e "\033[31mPlease enter a PHP version\033[0m"
@@ -67,7 +74,7 @@ while true
     #set the server port
     while true;
         do
-        read -p "Symfony server port : " port_host
+        read -p "[4/5] Symfony server port : " port_host
 
         if [ -z "$port_host" ]; then
             echo -e "\033[31mPlease enter the server port\033[0m"
@@ -76,8 +83,7 @@ while true
         break
     done
 
-
-    echo -e "\033[32mYour symfony project will be created in \033[4m$path_project/$project_name\033[0m \033[32mwith PHP $php_version and Symfony $symfony_version on port $port_host \033[0m"
+    echo -e "\033[32m[5/5] Your symfony project will be created in \033[4m$path_project/$project_name\033[0m \033[32mwith PHP $php_version and Symfony $symfony_version on port $port_host \033[0m"
 
     #validate the configuration
     read -p "Do you want to validate ? [y/n] " reply
@@ -93,11 +99,12 @@ while true
                      "PORT_HOST;$port_host" \
                      "DOCKER_FOLDER;docker.config-php$php_version-symfony$symfony_version"
 
-        #build from the image if she exist
+        #build from an existing image if it exists
         docker images --quiet php$php_version-symfony$symfony_version > .tmp
 
+        #create the project
         make create
-
+        
         break
     else
         break

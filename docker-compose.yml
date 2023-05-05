@@ -1,3 +1,10 @@
+# Path: ./docker-compose.yml
+#
+# This file is used to create a new project
+#
+# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
+# @Author : https://github.com/mathurinhauville
+
 version: '3.8'
 services:
     php8-sf6:
