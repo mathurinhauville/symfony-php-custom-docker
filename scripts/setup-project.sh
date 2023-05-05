@@ -88,22 +88,15 @@ while true
                      "PROJECT_NAME;$project_name" \
                      "SYMFONY_VERSION;$symfony_version" \
                      "PHP_VERSION;$php_version" \
-                     "CONTAINER_NAME;project-$project_name-symfony$symfony_version-PHP$php_version" \
+                     "CONTAINER_NAME;$project_name-symfony$symfony_version-PHP$php_version" \
                      "IMAGE_NAME;php$php_version-symfony$symfony_version" \
                      "PORT_HOST;$port_host" \
+                     "DOCKER_FOLDER;docker.config-php$php_version-symfony$symfony_version"
 
         #build from the image if she exist
-        docker images --quiet $image_name > .tmp
+        docker images --quiet php$php_version-symfony$symfony_version > .tmp
 
-        if [ -s .tmp ]; then
-            echo -e "\033[32mCreate the container and the project from an existing image\033[0m"
-            make create-from-existing-image
-        else
-            echo -e "\033[32mCreate the container and the project from a new image\033[0m"
-            make create
-        fi
-
-        rm -f .tmp
+        make create
 
         break
     else

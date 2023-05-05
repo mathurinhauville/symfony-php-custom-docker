@@ -13,7 +13,7 @@ services:
         ports:
             - ${PORT_HOST}:8000
         volumes:
-            - ../:/var/www/html
+            - ./:/var/www/html
         
 networks:
     php-symfony-networks:
