@@ -33,15 +33,8 @@ create :
 	@cat .env >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
 	@cp -r .copy/* php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
-	@docker exec -it truncate -s 0 /root/.gitconfig
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
 
 # Reset the environment variables to the default values
 reset :
-	@./scripts/setup-env.sh "PATH_PROJECT;." \
-                     "PROJECT_NAME;my-project" \
-                     "SYMFONY_VERSION;6.2" \
-                     "PHP_VERSION;8.2" \
-                     "CONTAINER_NAME;my-project-symfony6.2-PHP8.2" \
-                     "IMAGE_NAME;php8.2-symfony6.2" \
-                     "PORT_HOST;9000"
+	@./scripts/reset-env.sh
