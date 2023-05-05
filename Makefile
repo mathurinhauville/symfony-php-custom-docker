@@ -11,7 +11,7 @@ new :
 
 create :
 	@if [ -s .tmp ]; then \
-        docker-compose -f ./docker-compose-update.yml --env-file .env up -d --remove-orphans ; \
+        docker-compose -f ./docker-compose.from-image.yml --env-file .env up -d --remove-orphans ; \
     else \
         docker-compose -f ./docker-compose.yml --env-file .env build --build-arg PHP_VERSION=$(PHP_VERSION) ; \
 		docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
