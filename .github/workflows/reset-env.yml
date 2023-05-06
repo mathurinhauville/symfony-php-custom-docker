@@ -7,9 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  reset-env:
     runs-on: ubuntu-latest
 
     steps:
-    - name: test
-      run: echo test
+    - name: make
+      run: ../../scripts/reset-env.sh 
