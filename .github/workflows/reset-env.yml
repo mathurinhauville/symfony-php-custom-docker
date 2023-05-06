@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: make
-      run: ./.github/scripts/reset-env.sh 
+    - name: Reset env
+      run: ./scripts/reset-env.sh 
