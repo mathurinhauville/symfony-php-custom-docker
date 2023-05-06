@@ -12,4 +12,4 @@ jobs:
 
     steps:
     - name: make
-      run: ../../scripts/reset-env.sh 
+      run: ./.github/scripts/reset-env.sh 
