@@ -7,9 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
-    steps:
-    - name: reset
-      run: make reset
+  steps:
+  - name: test
+    run: echo test
