@@ -1,6 +1,6 @@
 # Path: ./Makefile
 #
-# Makefile with commands to create a new project with symfony and docker
+# Commands for create a new project with docker
 #
 # This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
 # @Author : https://github.com/mathurinhauville
@@ -27,13 +27,14 @@ create :
 		docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
     fi
 	@rm -f .tmp
-	docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
+	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@echo "" >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env 
 	@cat .env >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
 	@cp -r .copy/* php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
+	@echo "\033[1m\033[32mYour project $(PROJECT_NAME) has been successfully created on $(PATH_PROJECT) \033[0m"
 
 # Reset the environment variables to the default values
 reset :

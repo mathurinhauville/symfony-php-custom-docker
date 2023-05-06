@@ -1,6 +1,6 @@
 # Path: ./docker-compose.from-image.yml
 #
-# This file is used to create a new project from an image of the project
+# Used when the image is already built
 #
 # This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
 # @Author : https://github.com/mathurinhauville

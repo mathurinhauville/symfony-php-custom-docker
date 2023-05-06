@@ -92,7 +92,7 @@ while true
         break
     done
 
-    echo -e "\033[32m[6/6] Your symfony project will be created in \033[4m$path_project/$project_name\033[0m \033[32mwith PHP $php_version and Symfony $symfony_version on port $port_host \033[0m"
+    echo -e "\033[34m[6/6] Your symfony project will be created in \033[4m$path_project/$project_name\033[0m \033[34mwith PHP $php_version and Symfony $symfony_version on port $port_host \033[0m"
 
     #validate the configuration
     read -p "Do you want to validate ? [y/n] " reply
@@ -105,8 +105,7 @@ while true
                      "PHP_VERSION;$php_version" \
                      "CONTAINER_NAME;$project_name-symfony$symfony_version-PHP$php_version" \
                      "IMAGE_NAME;php$php_version-symfony$symfony_version" \
-                     "PORT_HOST;$port_host" \
-                     "DOCKER_FOLDER;docker.config-php$php_version-symfony$symfony_version"
+                     "PORT_HOST;$port_host"
 
         #build from an existing image if it exists
         docker images --quiet php$php_version-symfony$symfony_version > .tmp

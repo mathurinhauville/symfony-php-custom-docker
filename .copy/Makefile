@@ -10,7 +10,7 @@ start :
 	@docker-compose -f ./docker-compose.yml up -d --remove-orphans
 	@echo "Starting server..."
 	@docker exec $(CONTAINER_NAME) symfony server:start -d > /dev/null 2>&1
-	@echo "\033[92mServer started on http://localhost:$(PORT_HOST)\033[0m"
+	@echo "\033[32mServer started on http://localhost:$(PORT_HOST)\033[0m"
 
 stop :
 	@docker-compose -f ./docker-compose.yml down --remove-orphans

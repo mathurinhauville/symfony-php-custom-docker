@@ -1,6 +1,6 @@
 # Path: ./docker-compose.yml
 #
-# This file is used to create a new project
+# Create new image and new container from .env file
 #
 # This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
 # @Author : https://github.com/mathurinhauville
