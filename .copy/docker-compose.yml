@@ -1,13 +1,13 @@
 version: '3.8'
 services:
     php8-sf6:
-        container_name: ${CONTAINER_NAME}
+        container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
         build: 
             context: ./php-symfony
             dockerfile: Dockerfile
             args:
                 PHP_VERSION: ${PHP_VERSION}
-        image: ${IMAGE_NAME}
+        image: symfony/php${PHP_VERSION}:latest
         networks:
             - php-symfony-networks
         ports:
@@ -17,4 +17,4 @@ services:
         
 networks:
     php-symfony-networks:
-        name: networks-${CONTAINER_NAME}
+        name: networks-${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}

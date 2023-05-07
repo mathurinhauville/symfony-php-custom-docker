@@ -2,9 +2,18 @@
 
 **This project is inspired by [@yoanbernabeu](https://github.com/yoanbernabeu) with [this project](https://github.com/yoanbernabeu/symfony6-php8-in-docker-compose)**
 
-This is an easy way to have multiple Symfony projects with **<font color="green">custom versions of PHP and Symfony</font>**. The main idea is to clone a single time this project and from him you will be able to create multiple Symfony projects with different versions of PHP and Symfony with a container for each project.
+This is an easy way to have multiple Symfony projects with **custom versions of PHP and Symfony**. The main idea is to clone a single time this project and from him you will be able to create multiple Symfony projects with different versions of PHP and Symfony with a container for each project.
 
 > **Note:** This project is not intended to be used in production. It's only for development.
+
+## How it works
+
+- The command [new](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/Makefile?plain=1#18) of the Makefile call the script [setup-project.sh](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/scripts/setup-project.sh) and will ask you some informations about your project (path, name, Symfony and PHP version and port of the Symfony server). 
+- Then, the informations will be saved in the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) file.
+- The command [create](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/Makefile?plain=1#22) will be automatically launched and will create the image with the PHP version that you entered before if it doesn't exist.
+- A Symfony project will be created in the path you entered before.
+- The [docker-compose.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.yml) and the [Makefile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/Makefile) from the [.copy](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy) folder and the [Dockerfile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/php-symfony/Dockerfile), and the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) will be copied in the Symfony project.
+- The container will be deleted.
 
 ## Installation
 

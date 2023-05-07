@@ -103,12 +103,7 @@ while true
                      "PROJECT_NAME;$project_name" \
                      "SYMFONY_VERSION;$symfony_version" \
                      "PHP_VERSION;$php_version" \
-                     "CONTAINER_NAME;$project_name-symfony$symfony_version-PHP$php_version" \
-                     "IMAGE_NAME;symfony/php$php_version:latest" \
                      "PORT_HOST;$port_host"
-
-        #test if the image exists
-        docker images --quiet symfony/php$php_version:latest > .tmp
 
         #create the project
         make create

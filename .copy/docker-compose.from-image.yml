@@ -1,6 +1,6 @@
-# Path: ./docker-compose.yml
+# Path: ./docker-compose.from-image.yml
 #
-# Create new image and new container from .env file
+# Used when the image is already built
 #
 # This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
 # @Author : https://github.com/mathurinhauville
@@ -8,21 +8,14 @@
 version: '3.8'
 services:
     php8-sf6:
-        env_file:
-            - .env
         container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
-        build: 
-            context: ./php-symfony
-            dockerfile: Dockerfile
-            args:
-                PHP_VERSION: ${PHP_VERSION}
         image: symfony/php${PHP_VERSION}:latest
+        networks:
+            - php-symfony-networks
         ports:
             - ${PORT_HOST}:8000
         volumes:
-            - ${PATH_PROJECT}:/var/www/html
-        networks:
-            - php-symfony-networks
+            - .:/var/www/html
 
 networks:
     php-symfony-networks:

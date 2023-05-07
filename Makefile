@@ -7,6 +7,9 @@
 
 include .env
 
+CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
+IMAGE_NAME = symfony/php$(PHP_VERSION):latest
+
 # Help command
 help :
 	@echo "Command list :"
@@ -20,6 +23,7 @@ new :
 
 # Create a new project from .env file (called by setup-project.sh)
 create :
+	@docker images --quiet $(IMAGE_NAME) > .tmp
 	@if [ -s .tmp ]; then \
         docker-compose -f ./docker-compose.from-image.yml --env-file .env up -d --remove-orphans ; \
     else \
@@ -30,7 +34,11 @@ create :
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@echo "" >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env 
-	@cat .env >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
+	@cp .env .env.tmp
+	@sed '/^PATH_PROJECT/d' .env.tmp > .tmp && cat .tmp > .env.tmp
+	@sed '/^PROJECT_NAME/d' .env.tmp > .tmp && cat .tmp > .env.tmp && rm -f .tmp
+	@cat .env.tmp >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
+	@rm -f .env.tmp
 	@cp -r .copy/* php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
@@ -39,4 +47,3 @@ create :
 # Reset the environment variables to the default values
 reset :
 	@./scripts/reset-env.sh
-#test

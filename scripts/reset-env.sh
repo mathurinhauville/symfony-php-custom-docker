@@ -12,6 +12,4 @@
                      "PROJECT_NAME;my-project" \
                      "SYMFONY_VERSION;6.2" \
                      "PHP_VERSION;8.2" \
-                     "CONTAINER_NAME;my-project-symfony6.2-PHP8.2" \
-                     "IMAGE_NAME;symfony/php8.2:latest" \
                      "PORT_HOST;9000"
