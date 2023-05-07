@@ -34,9 +34,7 @@ create :
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@echo "" >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env 
-	@cp .env .env.tmp
-	@sed '/^PATH_PROJECT/d' .env.tmp > .tmp && cat .tmp > .env.tmp
-	@sed '/^PROJECT_NAME/d' .env.tmp > .tmp && cat .tmp > .env.tmp && rm -f .tmp
+	@sed '/^PATH_PROJECT/d' .env > .env.tmp
 	@cat .env.tmp >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
 	@rm -f .env.tmp
 	@cp -r .copy/* php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)
