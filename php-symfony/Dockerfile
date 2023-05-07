@@ -7,7 +7,7 @@
 
 ARG PHP_VERSION
 
-FROM php:${PHP_VERSION}-cli
+FROM php:${PHP_VERSION}-apache
 
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
