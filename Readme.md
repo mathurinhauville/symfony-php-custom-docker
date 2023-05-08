@@ -45,7 +45,7 @@ $ PHP version : 8.2
 $ Symfony server port : 9000
 $ Do you want to continue ? [y/n] y
 ```
-><span style="color: #EB0B00;"> **Note:** For the Symfony version, please only specify the major and minor version of the software (such as '6.2') and don't include patch version (such as 6.2.10)".</span>
+>**Note:** For the Symfony version, please only specify the major and minor version of the software (such as 6.2) and don't include patch version (such as 6.2.10)
 
 Then, a container will be created with the Symfony and PHP versions you entered and the project will be created in the path you specified.
 Just after this operation, the container will be deleted.
@@ -68,7 +68,7 @@ That will recreate the container and launch the symfony server.
 ## Enjoy
 Your project is now ready to use, you can access it at this url : http://localhost:9000 (the port you entered before).
 
-## Why it's so cool ?
+## Why it's cool ? 😎
 #### Once you have created the Symfony project, you can :
 - Share the project with your team and they will able to access it with a single command (make start) without having to install PHP or Symfony and all the dependencies.
 - Change the PHP version of the project by editing the .env file and the command make restart 
