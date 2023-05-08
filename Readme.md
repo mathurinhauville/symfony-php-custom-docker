@@ -28,7 +28,7 @@ First, please check [the list of PHP supported versions](https://www.php.net/sup
 Clone the project
 
 ```bash
-git clone https://github.com/mathurinhauville/php-symfony.git
+git clone https://github.com/mathurinhauville/symfony-php-custom-docker.git
 ```
 
 Place yourself in the repository and create a new project
