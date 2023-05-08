@@ -37,7 +37,6 @@ Place yourself in the repository and create a new project
 make new
 ```
 
-[video](https://www.youtube.com/watch?v=Qws83k1iwS4)
 You will be asked to enter the path of your project, his name, the Symfony and PHP version and the port of the Symfony server.
 
 For example, if you want to create a project with **Symfony 6.2** and **PHP 8.2** on the **port 9000**, you will have to enter this informations :
