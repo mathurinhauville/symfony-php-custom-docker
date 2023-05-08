@@ -6,13 +6,19 @@ This is an easy way to have multiple Symfony projects with **custom versions of 
 
 > **Note:** This project is not intended to be used in production. It's only for development.
 
+## Requirements
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Make command](https://www.gnu.org/software/make/)
+  
 ## How it works
 
 - The command [new](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/Makefile?plain=1#18) of the Makefile call the script [setup-project.sh](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/scripts/setup-project.sh) and will ask you some informations about your project (path, name, Symfony and PHP version and port of the Symfony server). 
 - Then, the informations will be saved in the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) file.
 - The command [create](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/Makefile?plain=1#22) will be automatically launched and will create the image with the PHP version that you entered before if it doesn't exist.
 - A Symfony project will be created in the path you entered before.
-- The [docker-compose.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.yml) and the [Makefile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/Makefile) from the [.copy](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy) folder and the [Dockerfile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/php-symfony/Dockerfile), and the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) will be copied in the Symfony project.
+- The [docker-compose.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.yml), [docker-compose.from-image.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.from-image.yml) and the [Makefile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/Makefile) from the [.copy](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy) folder and the [Dockerfile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/php-symfony/Dockerfile), and the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) will be copied in the Symfony project.
 - The container will be deleted.
 
 ## Installation
@@ -47,7 +53,9 @@ $ Do you want to continue ? [y/n] y
 Then, a container will be created with the Symfony and PHP version and the project will be created in the path you entered.
 Just after this operation, the container will be deleted.
 
-> **Note:** Don't make attention to the message *"Your project is now ready in /var/www/html/my-project"*. It's the path in the container.
+If you want to set the environment variables manually, you can edit the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) file and run the command [make create](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/Makefile?plain=1#22).
+
+
 
 
 Go to the Symfony project you just created
