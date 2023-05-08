@@ -1,4 +1,4 @@
-# Path: ./docker-compose.from-image.yml
+# Path: ./.copy/docker-compose.from-image.yml
 #
 # Used when the image is already built
 #
