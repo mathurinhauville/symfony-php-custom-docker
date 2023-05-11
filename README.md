@@ -108,7 +108,6 @@ make shell
 - A Symfony project will be created in the path you entered before.
 - The [docker-compose.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.yml), [docker-compose.from-image.yml](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/docker-compose.from-image.yml) and the [Makefile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy/Makefile) from the [.copy](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.copy) folder and the [Dockerfile](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/php-symfony/Dockerfile), and the [.env](https://github.com/mathurinhauville/symfony-php-custom-docker/blob/main/.env) will be copied in the Symfony project.
 - The container will be deleted.
-- 
 ## The future of this project
 For the moment the DB is not managed in this project, but I will add it in the future.
 Also, I only test this project on MacOS ARM, so I will test it on Linux and Windows. **Please let me know if you have any issues.**
