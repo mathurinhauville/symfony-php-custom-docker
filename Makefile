@@ -12,10 +12,9 @@ IMAGE_NAME = symfony/php$(PHP_VERSION):latest
 
 # Help command
 help :
-	@echo "Command list :"
 	@echo "new : Set the environment variables and create a new project"
 	@echo "create : Create a new container and project from .env file (use by script)"
-	@echo "reset : Reset the environment variables to the default values (automatic when you commit)"
+	@echo "reset : Reset the environment variables to the default values"
 
 
 # Create a new project
@@ -46,3 +45,5 @@ create :
 # Reset the environment variables to the default values
 reset :
 	@./scripts/reset-env.sh
+
+.DEFAULT_GOAL := help
