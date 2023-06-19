@@ -68,7 +68,7 @@ That will recreate the container and launch the symfony server.
 ## Enjoy
 Your project is now ready to use, you can access it at this url : http://localhost:9000 (the port you entered before).
 
-## Why it's cool ? 😎
+## Why it's cool ?
 #### Once you have created the Symfony project, you can :
 - Share the project with your team and they will able to access it with a single command (make start) without having to install PHP or Symfony and all the dependencies.
 - Change the PHP version of the project by editing the .env file and the command make restart 
