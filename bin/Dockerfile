@@ -1,4 +1,4 @@
-# Path: php-symfony/Dockerfile
+# Path: bin/Dockerfile
 #
 # Dockerfile for install Symfony with PHP
 #

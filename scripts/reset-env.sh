@@ -9,6 +9,7 @@
 # @Author : https://github.com/mathurinhauville
 
 ./scripts/setup-env.sh "PATH_PROJECT;." \
+                     "PATH_CURRENT_PROJECT;." \
                      "PROJECT_NAME;my-project" \
                      "SYMFONY_VERSION;6.2" \
                      "PHP_VERSION;8.2" \

@@ -25,7 +25,7 @@ new :
 create :
 	@docker images --quiet $(IMAGE_NAME) > .tmp
 	@if [ -s .tmp ]; then \
-        docker-compose -f ./docker-compose.from-image.yml --env-file .env up -d --remove-orphans ; \
+        docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
     else \
         docker-compose -f ./docker-compose.yml --env-file .env build --build-arg PHP_VERSION=$(PHP_VERSION) ; \
 		docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
@@ -33,12 +33,8 @@ create :
 	@rm -f .tmp
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
-	@echo "" >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env 
-	@sed '/^PATH_PROJECT/d' .env > .env.tmp
-	@cat .env.tmp >> $(PATH_PROJECT)/$(PROJECT_NAME)/.env
-	@rm -f .env.tmp
-	@cp -r .copy/* php-symfony $(PATH_PROJECT)/$(PROJECT_NAME)
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
+	@./scripts/copy-files.sh
 	@docker-compose -f ./docker-compose.yml down --remove-orphans
 	@echo "\033[1m\033[32mYour project $(PROJECT_NAME) has been successfully created on $(PATH_PROJECT) \033[0m"
 

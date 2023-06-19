@@ -98,8 +98,14 @@ while true
     read -p "Do you want to validate ? [y/n] " reply
     if [ "$reply" = "y" ] || [ "$reply" = "Y" ]; then
 
+        last_char=${path_project: -1}
+        if [[ "$last_char" = "/" ]]; then
+            path_project=${path_project%?}
+        fi
+        
         #set the environment variables
         ./scripts/setup-env.sh "PATH_PROJECT;$path_project" \
+                     "PATH_CURRENT_PROJECT;$path_project" \
                      "PROJECT_NAME;$project_name" \
                      "SYMFONY_VERSION;$symfony_version" \
                      "PHP_VERSION;$php_version" \
