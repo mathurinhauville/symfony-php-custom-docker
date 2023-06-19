@@ -41,5 +41,3 @@ create :
 # Reset the environment variables to the default values
 reset :
 	@./scripts/reset-env.sh
-
-.DEFAULT_GOAL := help
