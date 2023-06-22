@@ -8,7 +8,7 @@
 include .env
 
 CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
-IMAGE_NAME = symfony/php$(PHP_VERSION):latest
+IMAGE_NAME = php$(PHP_VERSION)-symfony
 
 # Help command
 help :

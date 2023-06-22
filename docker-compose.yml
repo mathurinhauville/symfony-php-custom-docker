@@ -7,23 +7,53 @@
 
 version: '3.8'
 services:
-    php8-sf6:
+    php:
         env_file:
             - .env
         container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
         build: 
-            context: ./bin
+            context: ./bin/php
             dockerfile: Dockerfile
             args:
                 PHP_VERSION: ${PHP_VERSION}
-        image: symfony/php${PHP_VERSION}:latest
+        image: php${PHP_VERSION}-symfony
         ports:
             - ${PORT_HOST}:8000
         volumes:
             - ${PATH_CURRENT_PROJECT}:/var/www/html
         networks:
-            - php-symfony-networks
+            - dev
+    
+    mysql:
+        container_name: mysql
+        build:
+            context: ./bin/mysql
+            dockerfile: Dockerfile
+        image: mysql
+        ports:
+            - 3306:3306
+        volumes:
+            - ./bin/mysql/data:/var/lib/mysql
+            - ./bin/mysql/config/my.cnf:/etc/mysql/my.cnf
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD='yes'
+        networks:
+            - dev
+
+    phpmyadmin:
+        container_name: phpmyadmin
+        build:
+            context: ./bin/phpmyadmin
+            dockerfile: Dockerfile
+        image: phpmyadmin
+        ports:
+            - 8080:80
+        environment:
+            - PMA_HOST=mysql
+        depends_on:
+            - mysql
+        networks:
+            - dev
 
 networks:
-    php-symfony-networks:
-        name: networks-${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
+    dev:
