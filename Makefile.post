@@ -35,3 +35,7 @@ restart : stop start
 
 shell :
 	@docker exec -it $(CONTAINER_NAME) /bin/bash
+
+update :
+	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/app?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" .env
+	make restart 
