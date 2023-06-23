@@ -109,7 +109,7 @@ while true
                      "PROJECT_NAME;$project_name" \
                      "SYMFONY_VERSION;$symfony_version" \
                      "PHP_VERSION;$php_version" \
-                     "PORT_HOST;$port_host"
+                     "PORT_HOST;$port_host" \
 
         #create the project
         make create

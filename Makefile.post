@@ -1,7 +1,7 @@
 include .env
 
 CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
-IMAGE_NAME = symfony/php$(PHP_VERSION):latest
+IMAGE_NAME = php$(PHP_VERSION)-symfony
 
 help:
 	@echo "start : Create the container and start the server"
@@ -10,14 +10,20 @@ help:
 	@echo "shell : Open the shell of the container"
 
 start :
-	@docker images --quiet $(IMAGE_NAME) > .tmp
-	@if [ -s .tmp ]; then \
-        docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
-    else \
-        docker-compose -f ./docker-compose.yml --env-file .env build --build-arg PHP_VERSION=$(PHP_VERSION) ; \
-		docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
-    fi
-	@rm -f .tmp
+	@if [ -z $$(docker images --quiet $(IMAGE_NAME)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build php --build-arg PHP_VERSION=$(PHP_VERSION); \
+	fi
+
+	@if [ -z $$(docker images --quiet mysql:$(MYSQL_SERVER_VERSION)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
+	fi
+
+	@if [ -z $$(docker images --quiet phpmyadmin:$(PHPMYADMIN_VERSION)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
+	fi
+
+	@docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans
+
 	@echo "\033[34mStarting server...\033[0m"
 	@docker exec $(CONTAINER_NAME) symfony server:start -d > /dev/null 2>&1
 	@echo "\033[32mServer started on http://localhost:$(PORT_HOST)\033[0m"

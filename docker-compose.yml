@@ -29,14 +29,14 @@ services:
         build:
             context: ./bin/mysql
             dockerfile: Dockerfile
-        image: mysql
+        image: mysql:${MYSQL_SERVER_VERSION}
         ports:
             - 3306:3306
         volumes:
             - ./bin/mysql/data:/var/lib/mysql
             - ./bin/mysql/config/my.cnf:/etc/mysql/my.cnf
         environment:
-            - MYSQL_ALLOW_EMPTY_PASSWORD='yes'
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         networks:
             - dev
 
@@ -45,7 +45,7 @@ services:
         build:
             context: ./bin/phpmyadmin
             dockerfile: Dockerfile
-        image: phpmyadmin
+        image: phpmyadmin:${PHPMYADMIN_VERSION}
         ports:
             - 8080:80
         environment:

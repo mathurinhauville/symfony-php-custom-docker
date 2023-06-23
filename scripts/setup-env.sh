@@ -9,7 +9,6 @@
 # @Author : https://github.com/mathurinhauville
 
 echo "###> docker configuration ###" > .env
-echo "### @author : https://github.com/mathurinhauville/symfony-php-custom-docker" >> .env
 
 for arg in "$@"
 do
@@ -19,3 +18,14 @@ do
 done
 
 echo "###< docker configuration ###" >> .env
+
+echo "" >> .env
+echo "###> mysql configuration ###" >> .env
+echo "MYSQL_SERVER_VERSION=8.0.33" >> .env
+echo "MYSQL_ROOT_PASSWORD=root" >> .env
+echo "###< mysql configuration ###" >> .env
+
+echo "" >> .env
+echo "###> phpmyadmin configuration ###" >> .env
+echo "PHPMYADMIN_VERSION=5.2.1" >> .env
+echo "###< phpmyadmin configuration ###" >> .env

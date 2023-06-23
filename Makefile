@@ -22,15 +22,21 @@ new :
 	@./scripts/setup-project.sh
 
 # Create a new project from .env file (called by setup-project.sh)
-create :
-	@docker images --quiet $(IMAGE_NAME) > .tmp
-	@if [ -s .tmp ]; then \
-        docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
-    else \
-        docker-compose -f ./docker-compose.yml --env-file .env build --build-arg PHP_VERSION=$(PHP_VERSION) ; \
-		docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans ; \
-    fi
-	@rm -f .tmp
+create:
+	@if [ -z $$(docker images --quiet $(IMAGE_NAME)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build php --build-arg PHP_VERSION=$(PHP_VERSION); \
+	fi
+
+	@if [ -z $$(docker images --quiet mysql:$(MYSQL_SERVER_VERSION)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
+	fi
+
+	@if [ -z $$(docker images --quiet phpmyadmin:$(PHPMYADMIN_VERSION)) ]; then \
+		docker-compose -f ./docker-compose.yml --env-file .env build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
+	fi
+
+	@docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans
+
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
