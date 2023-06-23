@@ -1,10 +1,9 @@
 #!/bin/bash
 
-source .env 
+source .env.docker
 
 # generate .env file for the project
-echo "" > .env.tmp
-echo "###> docker configuration ###" >> .env.tmp
+echo "###> docker configuration ###" > .env.tmp
 echo PATH_CURRENT_PROJECT=. >> .env.tmp
 echo PROJECT_NAME=${PROJECT_NAME} >> .env.tmp
 echo SYMFONY_VERSION=${SYMFONY_VERSION} >> .env.tmp
@@ -22,12 +21,14 @@ echo "PHPMYADMIN_VERSION=${PHPMYADMIN_VERSION}" >> .env.tmp
 echo "###< phpmyadmin configuration ###" >> .env.tmp
 
 # move the .env file into the project
-cat .env.tmp >> ${PATH_PROJECT}/${PROJECT_NAME}/.env
+cp .env.tmp ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 rm .env.tmp
 
+# setup the database url
 sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/app?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
 
-# copy the Dockerfile into the project
+# copy the Dockerfiles into the project
+rm -rf bin/mysql/data
 cp -r bin ${PATH_PROJECT}/${PROJECT_NAME}
 # copy the docker-compose.yml into the project
 cp docker-compose.yml ${PATH_PROJECT}/${PROJECT_NAME}
@@ -35,3 +36,6 @@ cp docker-compose.yml ${PATH_PROJECT}/${PROJECT_NAME}
 cp Makefile.post ${PATH_PROJECT}/${PROJECT_NAME}/Makefile
 # copy the README into the project
 cp README.md.post ${PATH_PROJECT}/${PROJECT_NAME}/README.md
+
+# add data folder to the .gitignore
+echo "data/*" >> ${PATH_PROJECT}/${PROJECT_NAME}/.gitignore

@@ -1,11 +1,4 @@
-# Path: ./Makefile
-#
-# Commands for create a new project with docker
-#
-# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
-# @Author : https://github.com/mathurinhauville
-
-include .env
+include .env.docker
 
 CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
 IMAGE_NAME = php$(PHP_VERSION)-symfony
@@ -24,24 +17,24 @@ new :
 # Create a new project from .env file (called by setup-project.sh)
 create:
 	@if [ -z $$(docker images --quiet $(IMAGE_NAME)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file .env build php --build-arg PHP_VERSION=$(PHP_VERSION); \
+		docker-compose -f ./docker-compose.yml --env-file=.env.docker build php --build-arg PHP_VERSION=$(PHP_VERSION); \
 	fi
 
 	@if [ -z $$(docker images --quiet mysql:$(MYSQL_SERVER_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file .env build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
+		docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
 	fi
 
 	@if [ -z $$(docker images --quiet phpmyadmin:$(PHPMYADMIN_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file .env build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
+		docker-compose -f ./docker-compose.yml --env-file=.env.docker build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
 	fi
 
-	@docker-compose -f ./docker-compose.yml --env-file .env up -d --remove-orphans
+	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d --remove-orphans
 
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
-	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.gitignore $(PROJECT_NAME)/.git
+	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
 	@./scripts/copy-files.sh
-	@docker-compose -f ./docker-compose.yml down --remove-orphans
+	@docker-compose -f ./docker-compose.yml --env-file=.env.docker down --remove-orphans
 	@echo "\033[1m\033[32mYour project $(PROJECT_NAME) has been successfully created on $(PATH_PROJECT) \033[0m"
 
 # Reset the environment variables to the default values

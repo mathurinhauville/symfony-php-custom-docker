@@ -8,7 +8,6 @@
 # This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
 # @Author : https://github.com/mathurinhauville
 
-source .env 
 bind TAB:menu-complete
 trap cleanup SIGINT
 

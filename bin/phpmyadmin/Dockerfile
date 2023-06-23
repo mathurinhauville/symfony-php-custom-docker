@@ -1,1 +1,1 @@
-FROM phpmyadmin:latest
+FROM phpmyadmin:${PHPMYADMIN_VERSION}

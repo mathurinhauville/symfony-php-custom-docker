@@ -1,15 +1,8 @@
-# Path: ./docker-compose.yml
-#
-# Create new image and new container from .env file
-#
-# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
-# @Author : https://github.com/mathurinhauville
-
 version: '3.8'
 services:
     php:
         env_file:
-            - .env
+            - .env.docker
         container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
         build: 
             context: ./bin/php
@@ -25,6 +18,8 @@ services:
             - dev
     
     mysql:
+        env_file:
+            - .env.docker
         container_name: mysql
         build:
             context: ./bin/mysql
@@ -41,6 +36,8 @@ services:
             - dev
 
     phpmyadmin:
+        env_file:
+            - .env.docker
         container_name: phpmyadmin
         build:
             context: ./bin/phpmyadmin
