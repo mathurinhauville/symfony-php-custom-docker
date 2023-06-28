@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# Path: scripts/setup-env.sh
-#
-# Script to set the environment variables
-# It's called by the script setup-project.sh
-#
-# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
-# @Author : https://github.com/mathurinhauville
+source .env.docker
 
 echo "###> docker configuration ###" > .env.docker
 
@@ -17,17 +11,5 @@ do
     echo $var_name=$var_value >> .env.docker
 done
 
-echo "TZ=Europe/Paris" >> .env.docker
+echo "PATH_CURRENT_PROJECT=${PATH_PROJECT}" >> .env.docker
 echo "###< docker configuration ###" >> .env.docker
-
-echo "" >> .env.docker
-echo "###> mysql configuration ###" >> .env.docker
-echo "MYSQL_SERVER_VERSION=8.0.33" >> .env.docker
-echo "MYSQL_ROOT_PASSWORD=root" >> .env.docker
-echo "DATABASE_NAME=app" >> .env.docker
-echo "###< mysql configuration ###" >> .env.docker
-
-echo "" >> .env.docker
-echo "###> phpmyadmin configuration ###" >> .env.docker
-echo "PHPMYADMIN_VERSION=5.2.1" >> .env.docker
-echo "###< phpmyadmin configuration ###" >> .env.docker
