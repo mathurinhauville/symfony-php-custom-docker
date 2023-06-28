@@ -11,5 +11,4 @@ do
     echo $var_name=$var_value >> .env.docker
 done
 
-echo "PATH_CURRENT_PROJECT=${PATH_PROJECT}" >> .env.docker
 echo "###< docker configuration ###" >> .env.docker

@@ -1,20 +1,11 @@
 #!/bin/bash
 
-# Path: scripts/setup-project.sh
-#
-# Script to read the environment variables and set them with the script setup-env.sh
-# It's called by the Makefile on the command "make new"
-#
-# This project is available on github : https://github.com/mathurinhauville/symfony-php-custom-docker
-# @Author : https://github.com/mathurinhauville
-
 bind TAB:menu-complete
 trap cleanup SIGINT
 
 # stop properly the script
 function cleanup() {
-  rm -f .tmp
-  ./scripts/reset-env.sh
+  make reset
   exit 0
 }
 
@@ -172,10 +163,12 @@ while true; do
       "MYSQL_SERVER_VERSION;$mysql_version" \
       "MYSQL_ROOT_PASSWORD;$mysql_password" \
       "DATABASE_NAME;$database_name" \
-      "PHPMYADMIN_VERSION;$phpmyadmin_version"
+      "PHPMYADMIN_VERSION;$phpmyadmin_version" \
+      "PATH_CURRENT_PROJECT;$path_project"
+
 
     #create the project
-    #make create
+    make create
 
     break
   else

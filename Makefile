@@ -27,6 +27,8 @@ create:
 	@echo "bin/mysql/data/*" >> ${PATH_PROJECT}/${PROJECT_NAME}/.gitignore
 	@make setup-database
 
+	@make clean
+
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker down --remove-orphans
 	@echo "\033[1m\033[32mYour project $(PROJECT_NAME) has been successfully created on $(PATH_PROJECT) \033[0m"
 
@@ -42,6 +44,7 @@ reset :
                          	"MYSQL_ROOT_PASSWORD;root" \
                          	"DATABASE_NAME;app" \
                          	"PHPMYADMIN_VERSION;latest" \
+                         	"PATH_CURRENT_PROJECT;."
 
 clean :
 	@images=$$(docker images --filter "dangling=true" -q); \
