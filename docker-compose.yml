@@ -12,6 +12,8 @@ services:
         image: php${PHP_VERSION}-symfony
         ports:
             - ${PORT_HOST}:8000
+        environment:
+            - TZ=Europe/Paris
         volumes:
             - ${PATH_CURRENT_PROJECT}:/var/www/html
         networks:
