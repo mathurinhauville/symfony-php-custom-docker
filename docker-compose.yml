@@ -31,6 +31,7 @@ services:
             - ./bin/mysql/data:/var/lib/mysql
             - ./bin/mysql/config/my.cnf:/etc/mysql/my.cnf
         environment:
+            - TZ=Europe/Paris
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         networks:
             - dev
@@ -46,6 +47,7 @@ services:
         ports:
             - 8080:80
         environment:
+            - TZ=Europe/Paris
             - PMA_HOST=mysql
         depends_on:
             - mysql

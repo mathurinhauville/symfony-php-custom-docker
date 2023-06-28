@@ -38,4 +38,4 @@ cp Makefile.post ${PATH_PROJECT}/${PROJECT_NAME}/Makefile
 cp README.md.post ${PATH_PROJECT}/${PROJECT_NAME}/README.md
 
 # add data folder to the .gitignore
-echo "data/*" >> ${PATH_PROJECT}/${PROJECT_NAME}/.gitignore
+echo "bin/mysql/data/*" >> ${PATH_PROJECT}/${PROJECT_NAME}/.gitignore
