@@ -46,6 +46,7 @@ reset :
                          	"PHPMYADMIN_VERSION;latest" \
                          	"PATH_CURRENT_PROJECT;."
 
+# Delete dangling images
 clean :
 	@images=$$(docker images --filter "dangling=true" -q); \
     if [ -n "$$images" ]; then \
