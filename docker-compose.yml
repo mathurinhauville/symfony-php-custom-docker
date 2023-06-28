@@ -1,60 +1,59 @@
 version: '3.8'
 services:
-    php:
-        env_file:
-            - .env.docker
-        container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
-        build: 
-            context: ./bin/php
-            dockerfile: Dockerfile
-            args:
-                PHP_VERSION: ${PHP_VERSION}
-        image: php${PHP_VERSION}-symfony
-        ports:
-            - ${PORT_HOST}:8000
-        environment:
-            - TZ=Europe/Paris
-        volumes:
-            - ${PATH_CURRENT_PROJECT}:/var/www/html
-        networks:
-            - dev
-    
-    mysql:
-        env_file:
-            - .env.docker
-        container_name: mysql
-        build:
-            context: ./bin/mysql
-            dockerfile: Dockerfile
-        image: mysql:${MYSQL_SERVER_VERSION}
-        ports:
-            - 3306:3306
-        volumes:
-            - ./bin/mysql/data:/var/lib/mysql
-            - ./bin/mysql/config/my.cnf:/etc/mysql/my.cnf
-        environment:
-            - TZ=Europe/Paris
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        networks:
-            - dev
+  php:
+    container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
+    build:
+      context: ./bin/php
+      dockerfile: Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        TZ: ${TZ}
+    image: php${PHP_VERSION}-symfony
+    ports:
+      - ${PORT_HOST}:8000
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${PATH_CURRENT_PROJECT}:/var/www/html
+    networks:
+      - dev
 
-    phpmyadmin:
-        env_file:
-            - .env.docker
-        container_name: phpmyadmin
-        build:
-            context: ./bin/phpmyadmin
-            dockerfile: Dockerfile
-        image: phpmyadmin:${PHPMYADMIN_VERSION}
-        ports:
-            - 8080:80
-        environment:
-            - TZ=Europe/Paris
-            - PMA_HOST=mysql
-        depends_on:
-            - mysql
-        networks:
-            - dev
+  mysql:
+    container_name: mysql
+    build:
+      context: ./bin/mysql
+      dockerfile: Dockerfile
+      args:
+        MYSQL_SERVER_VERSION: ${MYSQL_SERVER_VERSION}
+    image: mysql:${MYSQL_SERVER_VERSION}
+    ports:
+      - 3306:3306
+    volumes:
+      - ./bin/mysql/data:/var/lib/mysql
+      - ./bin/mysql/config/my.cnf:/etc/mysql/my.cnf
+    environment:
+      - TZ=${TZ}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - dev
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    build:
+      context: ./bin/phpmyadmin
+      dockerfile: Dockerfile
+      args:
+        PHPMYADMIN_VERSION: ${PHPMYADMIN_VERSION}
+    image: phpmyadmin:${PHPMYADMIN_VERSION}
+    ports:
+      - 8080:80
+    environment:
+      - TZ=${TZ}
+      - PMA_HOST=mysql
+    depends_on:
+      - mysql
+    networks:
+      - dev
 
 networks:
-    dev:
+  dev:

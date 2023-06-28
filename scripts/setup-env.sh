@@ -17,12 +17,14 @@ do
     echo $var_name=$var_value >> .env.docker
 done
 
+echo "TZ=Europe/Paris" >> .env.docker
 echo "###< docker configuration ###" >> .env.docker
 
 echo "" >> .env.docker
 echo "###> mysql configuration ###" >> .env.docker
 echo "MYSQL_SERVER_VERSION=8.0.33" >> .env.docker
 echo "MYSQL_ROOT_PASSWORD=root" >> .env.docker
+echo "DATABASE_NAME=app" >> .env.docker
 echo "###< mysql configuration ###" >> .env.docker
 
 echo "" >> .env.docker

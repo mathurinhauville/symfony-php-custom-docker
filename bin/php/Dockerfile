@@ -6,7 +6,7 @@
 # @Author : https://github.com/mathurinhauville
 
 ARG PHP_VERSION
-
+ARG TZ
 FROM php:${PHP_VERSION}-apache
 
 RUN echo ${SYMFONY_VERSION}
@@ -44,7 +44,7 @@ RUN git config --global user.email "dont.need@to.configure.com" \
 
 RUN sed -i  "s|^;date.timezone.*|date.timezone = 'Europe/Paris'|" /usr/local/etc/php/php.ini-development
 RUN sed -i  "s|^;date.timezone.*|date.timezone = 'Europe/Paris'|" /usr/local/etc/php/php.ini-production
-RUN echo "date.timezone = 'Europe/Paris'" > /usr/local/etc/php/php.ini
+RUN echo "date.timezone = '${TZ}'" > /usr/local/etc/php/php.ini
 
 CMD tail -f /dev/null
 

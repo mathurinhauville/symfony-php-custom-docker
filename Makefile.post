@@ -10,18 +10,7 @@ help:
 	@echo "shell : Open the shell of the container"
 
 start :
-	@if [ -z $$(docker images --quiet $(IMAGE_NAME)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build php --build-arg PHP_VERSION=$(PHP_VERSION); \
-	fi
-
-	@if [ -z $$(docker images --quiet mysql:$(MYSQL_SERVER_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
-	fi
-
-	@if [ -z $$(docker images --quiet phpmyadmin:$(PHPMYADMIN_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
-	fi
-
+	docker-compose -f ./docker-compose.yml --env-file=.env.docker build
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d --remove-orphans
 
 	@echo "\033[34mStarting server...\033[0m"
@@ -37,5 +26,11 @@ shell :
 	@docker exec -it $(CONTAINER_NAME) /bin/bash
 
 update :
-	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/app?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" .env
-	make restart 
+	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" .env
+	make restart
+
+clean :
+    @images=$$(docker images --filter "dangling=true" -q); \
+    if [ -n "$$images" ]; then \
+        docker rmi $$images --force; \
+    fi

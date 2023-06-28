@@ -16,18 +16,7 @@ new :
 
 # Create a new project from .env file (called by setup-project.sh)
 create:
-	@if [ -z $$(docker images --quiet $(IMAGE_NAME)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build php --build-arg PHP_VERSION=$(PHP_VERSION); \
-	fi
-
-	@if [ -z $$(docker images --quiet mysql:$(MYSQL_SERVER_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql --build-arg MYSQL_SERVER_VERSION=$(MYSQL_SERVER_VERSION); \
-	fi
-
-	@if [ -z $$(docker images --quiet phpmyadmin:$(PHPMYADMIN_VERSION)) ]; then \
-		docker-compose -f ./docker-compose.yml --env-file=.env.docker build phpmyadmin --build-arg PHPMYADMIN_VERSION=$(PHPMYADMIN_VERSION); \
-	fi
-
+	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d --remove-orphans
 
 	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
@@ -40,3 +29,9 @@ create:
 # Reset the environment variables to the default values
 reset :
 	@./scripts/reset-env.sh
+
+clean :
+	@images=$$(docker images --filter "dangling=true" -q); \
+    if [ -n "$$images" ]; then \
+        docker rmi $$images --force; \
+    fi

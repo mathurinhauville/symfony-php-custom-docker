@@ -9,11 +9,13 @@ echo PROJECT_NAME=${PROJECT_NAME} >> .env.tmp
 echo SYMFONY_VERSION=${SYMFONY_VERSION} >> .env.tmp
 echo PHP_VERSION=${PHP_VERSION} >> .env.tmp
 echo PORT_HOST=${PORT_HOST} >> .env.tmp
+echo TZ=${TZ} >> .env.tmp
 echo "###< docker configuration ###" >> .env.tmp
 echo "" >> .env.tmp
 echo "###> mysql configuration ###" >> .env.tmp
 echo "MYSQL_SERVER_VERSION=${MYSQL_SERVER_VERSION}" >> .env.tmp
 echo "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> .env.tmp
+echo "DATABASE_NAME=${DATABASE_NAME}" >> .env.tmp
 echo "###< mysql configuration ###" >> .env.tmp
 echo "" >> .env.tmp
 echo "###> phpmyadmin configuration ###" >> .env.tmp
@@ -25,7 +27,7 @@ cp .env.tmp ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 rm .env.tmp
 
 # setup the database url
-sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/app?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
+sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
 
 # copy the Dockerfiles into the project
 rm -rf bin/mysql/data
