@@ -1,7 +1,6 @@
 include .env.docker
 
-CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
-IMAGE_NAME = php$(PHP_VERSION)-symfony
+CONTAINER_NAME = $(PROJECT_NAME)-php
 
 # Create a new project
 new :

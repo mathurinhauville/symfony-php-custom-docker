@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   php:
-    container_name: ${PROJECT_NAME}-symfony${SYMFONY_VERSION}-php${PHP_VERSION}
+    container_name: ${PROJECT_NAME}-php
     build:
       context: ./bin/php
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
       - dev
 
   mysql:
-    container_name: mysql
+    container_name: ${PROJECT_NAME}-mysql
     build:
       context: ./bin/mysql
       dockerfile: Dockerfile
@@ -38,7 +38,7 @@ services:
       - dev
 
   phpmyadmin:
-    container_name: phpmyadmin
+    container_name: ${PROJECT_NAME}-phpmyadmin
     build:
       context: ./bin/phpmyadmin
       dockerfile: Dockerfile
