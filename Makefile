@@ -9,7 +9,9 @@ new :
 
 # Create a new project from .env file (called by setup-project.sh)
 create:
-	$make set-php
+	@make set-php
+
+	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 
 	@if [ -n "$(MYSQL_SERVER_VERSION)" ]; then \
 		make set-mysql; \
@@ -18,8 +20,6 @@ create:
 	@if [ -n "$(PHPMYADMIN_VERSION)" ]; then \
 		make set-phpmyadmin; \
 	fi
-
-	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
 
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
@@ -65,8 +65,7 @@ set-mysql :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d mysql --remove-orphans
 	@make clean
 	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
-	@rm -rf bin/mysql/data
-
+	rm -rf bin/mysql/data
 
 set-phpmyadmin :
 	docker-compose -f ./docker-compose.yml --env-file=.env.docker build phpmyadmin
