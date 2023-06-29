@@ -15,6 +15,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${PATH_CURRENT_PROJECT}:/var/www/html
+      - ./bin/php/config:/usr/local/etc/php
     networks:
       - dev
 

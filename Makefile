@@ -27,14 +27,16 @@ create:
 	# copy of the files
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	#@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
+	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@cp .env.docker ${PATH_PROJECT}/${PROJECT_NAME}
 	@sed -i '' "s|^PATH_CURRENT_PROJECT=.*|PATH_CURRENT_PROJECT=.|" ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 	@cp -r bin ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp docker-compose.yml ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp Makefile.post ${PATH_PROJECT}/${PROJECT_NAME}/Makefile
 	@cp README.md.post ${PATH_PROJECT}/${PROJECT_NAME}/README.md
+	@rm -rf bin/mysql/data
 
-	# delete the container
+	# delete the containers
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker down --remove-orphans
 	@echo "\033[1m\033[32mYour project $(PROJECT_NAME) has been successfully created on $(PATH_PROJECT) \033[0m"
 
@@ -71,7 +73,6 @@ set-mysql :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d mysql --remove-orphans
 	@make clean
 	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
-	rm -rf bin/mysql/data
 
 # creation of the image and deployment of the phpmyadmin container
 set-phpmyadmin :

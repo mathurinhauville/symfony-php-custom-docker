@@ -1,17 +1,18 @@
 include .env.docker
 
-CONTAINER_NAME = $(PROJECT_NAME)-symfony$(SYMFONY_VERSION)-php$(PHP_VERSION)
-IMAGE_NAME = php$(PHP_VERSION)-symfony
+CONTAINER_NAME = $(PROJECT_NAME)-php
 
+# creation of the images and deployment of the containers
 start :
+	# creation of the image and deployment of the php container
 	@make set-php
 
-	@docker exec -it $(CONTAINER_NAME) symfony new $(PROJECT_NAME) --version="$(SYMFONY_VERSION).*" --webapp
-
+	# creation of the image and deployment of the mysql container if needed
 	@if [ -n "$(MYSQL_SERVER_VERSION)" ]; then \
 		make set-mysql; \
 	fi
 
+	# creation of the image and deployment of the phpmyadmin container if needed
 	@if [ -n "$(PHPMYADMIN_VERSION)" ]; then \
 		make set-phpmyadmin; \
 	fi
@@ -20,11 +21,14 @@ start :
 	@docker exec $(CONTAINER_NAME) symfony server:start -d > /dev/null 2>&1
 	@echo "\033[32mServer started on http://localhost:$(PORT_HOST)\033[0m"
 
+# delete the containers
 stop :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker down --remove-orphans
 
+# delete the containers and recreate them
 restart : stop start
 
+# enter in the php container
 shell :
 	@docker exec -it $(CONTAINER_NAME) /bin/bash
 
@@ -35,11 +39,13 @@ clean :
         docker rmi $$images --force; \
     fi
 
+# creation of the image and deployment of the php container
 set-php :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build php
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d php --remove-orphans
 	@make clean
 
+# creation of the image and deployment of the mysql container
 set-mysql :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d mysql --remove-orphans
@@ -47,6 +53,7 @@ set-mysql :
 	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
 	rm -rf bin/mysql/data
 
+# creation of the image and deployment of the phpmyadmin container
 set-phpmyadmin :
 	docker-compose -f ./docker-compose.yml --env-file=.env.docker build phpmyadmin
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d phpmyadmin --remove-orphans

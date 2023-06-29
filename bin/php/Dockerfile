@@ -44,10 +44,6 @@ RUN npm install --global yarn
 RUN git config --global user.email "dont.need@to.configure.com" \
     &&  git config --global user.name "Dont Need"
 
-RUN sed -i  "s|^;date.timezone.*|date.timezone = '${TZ}'|" /usr/local/etc/php/php.ini-development
-RUN sed -i  "s|^;date.timezone.*|date.timezone = '${TZ}'|" /usr/local/etc/php/php.ini-production
-RUN echo "date.timezone = '${TZ}'" > /usr/local/etc/php/php.ini
-
 CMD tail -f /dev/null
 
 WORKDIR /var/www/html/
