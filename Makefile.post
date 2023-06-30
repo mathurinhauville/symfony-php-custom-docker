@@ -43,6 +43,7 @@ clean :
 set-php :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build php
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d php --remove-orphans
+	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@make clean
 
 # creation of the image and deployment of the mysql container

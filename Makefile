@@ -27,7 +27,6 @@ create:
 	# copy of the files
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	#@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
-	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@cp .env.docker ${PATH_PROJECT}/${PROJECT_NAME}
 	@sed -i '' "s|^PATH_CURRENT_PROJECT=.*|PATH_CURRENT_PROJECT=.|" ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 	@cp -r bin ${PATH_PROJECT}/${PROJECT_NAME}
@@ -45,8 +44,8 @@ reset :
 	@./scripts/setup-env.sh "PATH_PROJECT;." \
                          	"PROJECT_NAME;my-project" \
                          	"TZ;UTC" \
-                         	"PHP_VERSION;latest" \
-                         	"SYMFONY_VERSION;6.2" \
+                         	"PHP_VERSION;8.2" \
+                         	"SYMFONY_VERSION;6.3" \
                          	"PORT_HOST;9000" \
                          	"MYSQL_SERVER_VERSION;8.0.33" \
                          	"MYSQL_ROOT_PASSWORD;root" \
@@ -65,6 +64,7 @@ clean :
 set-php :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build php
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d php --remove-orphans
+	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@make clean
 
 # creation of the image and deployment of the mysql container

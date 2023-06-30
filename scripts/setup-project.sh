@@ -5,7 +5,6 @@ trap cleanup SIGINT
 
 # stop properly the script
 function cleanup() {
-  make reset
   exit 0
 }
 
