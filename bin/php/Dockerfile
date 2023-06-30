@@ -44,6 +44,8 @@ RUN npm install --global yarn
 RUN git config --global user.email "dont.need@to.configure.com" \
     &&  git config --global user.name "Dont Need"
 
+COPY ../config/. /usr/local/etc/php/
+
 CMD tail -f /dev/null
 
 WORKDIR /var/www/html/

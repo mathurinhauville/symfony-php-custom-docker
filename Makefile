@@ -26,14 +26,13 @@ create:
 
 	# copy of the files
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
-	#@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
+	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
 	@cp .env.docker ${PATH_PROJECT}/${PROJECT_NAME}
 	@sed -i '' "s|^PATH_CURRENT_PROJECT=.*|PATH_CURRENT_PROJECT=.|" ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 	@cp -r bin ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp docker-compose.yml ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp Makefile.post ${PATH_PROJECT}/${PROJECT_NAME}/Makefile
 	@cp README.md.post ${PATH_PROJECT}/${PROJECT_NAME}/README.md
-	@rm -rf bin/mysql/data
 
 	# delete the containers
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker down --remove-orphans
@@ -62,15 +61,16 @@ clean :
 
 # creation of the image and deployment of the php container
 set-php :
+	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build php
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d php --remove-orphans
-	@echo "date.timezone = '${TZ}'" > bin/php/config/php.ini
 	@make clean
 
 # creation of the image and deployment of the mysql container
 set-mysql :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d mysql --remove-orphans
+	@rm -rf bin/mysql/data
 	@make clean
 	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
 

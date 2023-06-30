@@ -1,6 +1,6 @@
 ARG MYSQL_SERVER_VERSION
 FROM mysql:${MYSQL_SERVER_VERSION}
 
-COPY config/my.cnf /etc/mysql
+COPY ../config/my.cnf /etc/mysql
 
 EXPOSE 3306
