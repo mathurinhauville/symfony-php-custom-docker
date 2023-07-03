@@ -9,10 +9,6 @@ ARG PHP_VERSION
 
 FROM php:${PHP_VERSION}-apache
 
-ARG TZ
-
-RUN echo ${SYMFONY_VERSION}
-
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
         locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \

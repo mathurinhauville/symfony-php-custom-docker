@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
       args:
         PHP_VERSION: ${PHP_VERSION}
-        TZ: ${TZ}
     image: php${PHP_VERSION}-symfony
     ports:
       - ${PORT_HOST}:8000
