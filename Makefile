@@ -28,7 +28,8 @@ create:
 	@rm -f $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.yml $(PATH_PROJECT)/$(PROJECT_NAME)/docker-compose.override.yml
 	@docker exec -it $(CONTAINER_NAME) rm -rf $(PROJECT_NAME)/.git
 	@cp .env.docker ${PATH_PROJECT}/${PROJECT_NAME}
-	@sed -i '' "s|^PATH_CURRENT_PROJECT=.*|PATH_CURRENT_PROJECT=.|" ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
+	@sed -i '' "/^SYMFONY_VERSION.*/d"  ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
+	@sed -i '' "s|^PATH_PROJECT=.*|PATH_PROJECT=.|" ${PATH_PROJECT}/${PROJECT_NAME}/.env.docker
 	@cp -r bin ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp docker-compose.yml ${PATH_PROJECT}/${PROJECT_NAME}
 	@cp Makefile.post ${PATH_PROJECT}/${PROJECT_NAME}/Makefile

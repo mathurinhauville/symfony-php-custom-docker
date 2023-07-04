@@ -156,8 +156,7 @@ fi
   "MYSQL_SERVER_VERSION;$mysql_version" \
   "MYSQL_ROOT_PASSWORD;$mysql_password" \
   "DATABASE_NAME;$database_name" \
-  "PHPMYADMIN_VERSION;$phpmyadmin_version" \
-  "PATH_CURRENT_PROJECT;$path_project"
+  "PHPMYADMIN_VERSION;$phpmyadmin_version"
 
 #create the project
 make create

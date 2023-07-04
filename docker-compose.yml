@@ -13,7 +13,7 @@ services:
     environment:
       - TZ=${TZ}
     volumes:
-      - ${PATH_CURRENT_PROJECT}:/var/www/html
+      - ${PATH_PROJECT}:/var/www/html
     networks:
       - dev
 

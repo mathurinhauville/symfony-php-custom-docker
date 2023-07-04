@@ -16,10 +16,19 @@ start :
 	@if [ -n "$(PHPMYADMIN_VERSION)" ]; then \
 		make set-phpmyadmin; \
 	fi
+	@make serve-start
 
+# start the server
+serve-start :
 	@echo "\033[34mStarting server...\033[0m"
 	@docker exec $(CONTAINER_NAME) symfony server:start -d > /dev/null 2>&1
 	@echo "\033[32mServer started on http://localhost:$(PORT_HOST)\033[0m"
+
+# stop the server
+serve-stop :
+	@echo "\033[34mStopping server...\033[0m"
+	@docker exec $(CONTAINER_NAME) symfony server:stop > /dev/null 2>&1
+	@echo "\033[32mServer stopped\033[0m"
 
 # delete the containers
 stop :
@@ -51,7 +60,7 @@ set-mysql :
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker build mysql
 	@docker-compose -f ./docker-compose.yml --env-file=.env.docker up -d mysql --remove-orphans
 	@make clean
-	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" ${PATH_PROJECT}/${PROJECT_NAME}/.env
+	@sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=\"mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=${MYSQL_SERVER_VERSION}\&charset=utf8mb4\"|" .env
 	rm -rf bin/mysql/data
 
 # creation of the image and deployment of the phpmyadmin container
